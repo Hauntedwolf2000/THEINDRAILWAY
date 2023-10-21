@@ -1,0 +1,41 @@
+/* src/VerticalScrollingTicker.css */
+.vertical-ticker {
+  overflow: hidden;
+  height: 200px; /* Set the desired height for the ticker */
+}
+
+.vertical-ticker-content {
+  animation: scroll 25s linear infinite;
+  animation-play-state: running; /* Initial animation state is running */
+}
+
+.vertical-ticker-item {
+  margin-bottom: 20px; /* Adjust spacing between announcements */
+  opacity: 0.8;
+  transition: opacity 0.5s;
+}
+
+.vertical-ticker-item.active {
+  opacity: 1;
+}
+
+.vertical-ticker:hover .vertical-ticker-content {
+  animation-play-state: paused; /* Pause the animation on hover */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+.back{
+  background-image: url("./img/p.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 50vh;
+  background-position: center;
+}
+
