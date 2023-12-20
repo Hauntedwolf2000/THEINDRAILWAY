@@ -105,8 +105,8 @@ const Home = () => {
       <Dropdown.Menu>
         <Dropdown.Item href="Fnt">Search My Train</Dropdown.Item>
         <Dropdown.Item href="Snt">Find My Train</Dropdown.Item>
-        {auth && <Dropdown.Item href="/Bok">Book My train</Dropdown.Item>}
-        {auth && <Dropdown.Item href="/cancel">Cancel the Tkt</Dropdown.Item>}
+        {  <Dropdown.Item href="/Bok">Book My train</Dropdown.Item>}
+        {  <Dropdown.Item href="/cancel">Cancel the Tkt</Dropdown.Item>}
         <Dropdown.Item href="ScrollingTicker">ALERT</Dropdown.Item>
         <Dropdown.Item href="#action-3">CONTACT</Dropdown.Item>
         <Dropdown.Item href="/pnr">PNR</Dropdown.Item>
