@@ -23,7 +23,7 @@ const Home = () => {
   axios.defaults.withCredentials=true;
 
   useEffect(()=>{
-    axios.get('http://localhost:8081')
+    axios.get(' ')
     .then(res =>{
       if(res.data.valid){
         Navigate('/')
@@ -41,7 +41,7 @@ const Home = () => {
 
 
   const handleDelete =()=>{
-    axios.get('http://localhost:8081/logout')
+    axios.get('')
     .then(res=>{
       window.location.reload(true);
     }).catch(err => console.log(err));
