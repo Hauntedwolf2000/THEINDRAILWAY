@@ -13,7 +13,8 @@ import c4 from './img/c4.jpg';
 import notdp from './img/notdp.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import Modal from '../../cmncomp/Modal';
+import GalleryPage from './gallery/GalleryPage';
+
 
 const Home = () => {
   const [auth,setAuth]= useState(false);
@@ -72,7 +73,7 @@ const Home = () => {
 					  </Dropdown.Toggle>
 
 					  <Dropdown.Menu>
-						  <Dropdown.Item ><h5>You are Authorised<br></br>{name}</h5></Dropdown.Item>
+						  <Dropdown.Item ><h5>Welcome back<br></br>{name}</h5></Dropdown.Item>
 						  <Dropdown.Item ><button className='btn btn-danger' onClick={handleDelete}>Logout</button></Dropdown.Item>
 					  </Dropdown.Menu>
 				  </Dropdown>
@@ -84,7 +85,7 @@ const Home = () => {
 						  <img src={notdp} alt="Logo" style={{ width: "40px", height: "40px" }} className='object-cover border-4 border-gray-400 rounded-circle cursor-pointer ' />
 					  </Dropdown.Toggle>
 					  <Dropdown.Menu>
-						  <Dropdown.Item ><h5>{messege}</h5></Dropdown.Item>
+						  <Dropdown.Item ><h5>{messege}<br></br>please login to book or cancel your ticket</h5></Dropdown.Item>
               <Dropdown.Item ><h5>LOGIN NOW</h5></Dropdown.Item>
 						  <Dropdown.Item ><Link to="/login" className='btn btn-primary'>LOGIN</Link></Dropdown.Item>
 					  </Dropdown.Menu>
@@ -94,7 +95,7 @@ const Home = () => {
     </div>
 				  <Nav onClick={toggleNavbar}>
 					  <Link to="/" className='m-3 navbar-brand mb-0 h1 pb-4'>Home</Link>
-					  <Nav.Link href="#about" className='m-3 navbar-brand mb-0 h1 pb-4'>About</Nav.Link>
+					  <Nav.Link href="/abt" className='m-3 navbar-brand mb-0 h1 pb-4'>About</Nav.Link>
 				  </Nav>
 
 				  <Dropdown>
@@ -105,6 +106,7 @@ const Home = () => {
         <Dropdown.Item href="Fnt">Search My Train</Dropdown.Item>
         <Dropdown.Item href="Snt">Find My Train</Dropdown.Item>
         {auth && <Dropdown.Item href="/Bok">Book My train</Dropdown.Item>}
+        {auth && <Dropdown.Item href="/cancel">Cancel the Tkt</Dropdown.Item>}
         <Dropdown.Item href="ScrollingTicker">ALERT</Dropdown.Item>
         <Dropdown.Item href="#action-3">CONTACT</Dropdown.Item>
         <Dropdown.Item href="/pnr">PNR</Dropdown.Item>
@@ -154,51 +156,11 @@ const Home = () => {
           <p>Now you can find the status of ur ticketbefore boarding</p>
         </Carousel.Caption>
       </Carousel.Item>
-
     </Carousel>
 
-    <div className="text-center">
-      <h1 className="font-weight-bold pt-5">ALL ABOUT INDIAN RAILWAY</h1>
-    </div>
-
-
-
-    <div class="container text-center">
-      <div class="row pt-lg-5">
-         <div class="col ">
-            <img src={c3} alt="YourImage" className="img-fluid rounded-5 pt-4" style={{ width: '100%', height: '100%' }}/>
-         </div>
-         <div class="col">
-            <h1 className="mb-4">MOMMENTS</h1>
-            <p>This is the content section of the grid layout.</p>
-            <Button variant="danger">Button 2</Button>
-         </div>
-      </div>
-    </div>
-    <div class="container text-center">
-      <div class="row pt-lg-5">
-      <div class="col">
-            <h1 className="mb-4">Indian Railways is a statutory body under the ownership of the Ministry of Railways, Government of India that operates India's national railway system.</h1>
-            <p>This is the content section of the grid layout.</p>
-            <Button variant="danger">Button 2</Button>
-         </div>
-         <div class="col ">
-            <img src={c3} alt="YourImage" className="img-fluid rounded-5 pt-4" style={{ width: '75%', height: '75%' }}/>
-         </div>
-      </div>
-    </div>
-    <div class="container text-center">
-      <div class="row pt-lg-5 pb-lg-5">
-         <div class="col pt-lg-5">
-            <img src={c3} alt="YourImage" className="img-fluid rounded-5 pt-4 border border-danger border-5 " style={{ width: '70%', height: '70%' }}/>
-         </div>
-         <div class="col">
-            <h1 className="mb-4 ps-5">Indian Railways is a statutory body under the ownership of the Ministry of Railways, Government of India that operates India's national railway system.</h1>
-            <Button variant="danger">Button 2</Button>
-         </div>
-      </div>
-    </div>
-    <Modal/>
+    <div className='pt-5'><GalleryPage/></div>
+    
+    
 
     <footer className="bg-primary text-whitept-5 p-4">
       <div className="container">

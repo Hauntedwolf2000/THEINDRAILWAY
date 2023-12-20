@@ -20,6 +20,8 @@ const Login = () => {
         .then(res =>{
           if(res.data.Status){
             Navigate('/')
+            Navigate('bok')
+            Navigate('cancel')
           } else{
             Navigate('/login')
           } 

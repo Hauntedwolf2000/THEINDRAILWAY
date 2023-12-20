@@ -11,12 +11,17 @@ import session from 'express-session';
 const salt=10;
 
 
+
+
 const app=express()
 app.use(cors({
     origin:["http://localhost:3000"],
-    methods:["POST","GET"],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
+
+
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json())
@@ -40,49 +45,7 @@ const db =mysql.createConnection({
 })
 
 //----------------------------------------------------------------------------------------------------------
-import Shortid from 'shortid';
-import Razorpay from 'razorpay';
-import path from 'path';
-import { log } from 'console';
 
-app.get('/logo.png',(req,res)=>{
-    res.sendFile(path.join(__dirname,'logo.png'))
-})
-
-
-const razorpay = new Razorpay({
-    key_id:'rzp_test_cbYRQnjrIYjfzM',
-    key_secret:'oO51vkQJ1sC9uc9ZcuBo6Oi0',
-})
-app.post('/razorpay',async (req,res)=>{
-    const payment_capture=1
-    const amount=4
-    const currency='INR'
-
-    const options={
-        amount: (amount*100).toString(),
-        currency,
-        receipt:Shortid.generate(),
-        payment_capture,
-    }
-    try {
-        const response = await razorpay.orders.create(options);
-        console.log(response);
-    
-        // Send a plain text response
-        res.json({
-            id:response.id,
-            currency:response.currency,
-            amount:response.amount
-        })
-      } catch (err) {
-        console.error(err);
-    
-        // Send an error response
-        res.status(500).send('Internal Server Error');
-      }
-    
-})
 
 
 //-----------------------------------------------------------------------------------------------------------
@@ -167,6 +130,9 @@ app.get('/search', (req, res) => {
         }
     });
 });
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -408,6 +374,7 @@ app.get("/trains", (req, res) => {
   });
 });
 
+// Route to handle bookings
 app.post("/bookings", async (req, res) => {
   const {
     trainId,
@@ -418,28 +385,19 @@ app.post("/bookings", async (req, res) => {
     destination,
   } = req.body;
 
-  // Generate a PNR number
   const pnrNumber = generatePNRNumber();
-
-  // Generate a booking date (format as YYYY-MM-DD)
   const booking_date = new Date().toISOString().split("T")[0];
-
-  // Define the cost per seat for each class
   const costPerSeat = {
     general: 20,
     sleeper: 40,
     ac: 60,
   };
 
-  // Calculate the total cost
   const totalCost = costPerSeat[selectedClass] * numPassengers;
+  // POST endpoint to handle payment data
 
   try {
-    const { bookedSeats, seatCount } = await allocateUniqueSeatNumbers(
-      trainId,
-      selectedClass,
-      numPassengers
-    );
+    const { bookedSeats, seatCount } = await allocateUniqueSeatNumbers(trainId, selectedClass, numPassengers);
 
     if (bookedSeats) {
       db.beginTransaction(async (err) => {
@@ -450,7 +408,6 @@ app.post("/bookings", async (req, res) => {
         }
 
         for (const seatNumber of bookedSeats) {
-          // Insert booking details into the database, including seat count and total cost
           db.query(
             "INSERT INTO bookings (train_id, source, destination, booking_date, seat_count, total_sum, booking_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [
@@ -481,10 +438,9 @@ app.post("/bookings", async (req, res) => {
         for (let i = 0; i < numPassengers; i++) {
           const passenger = passengers[i];
           const bookedSeat = bookedSeats[i];
-          const seatType = bookedSeat[0]; // Get the seat type prefix
-          const seatNumber = bookedSeat.substring(1); // Get the seat number without the prefix
+          const seatType = bookedSeat[0];
+          const seatNumber = bookedSeat.substring(1);
 
-          // Insert passenger details into the database, including seat class
           db.query(
             "INSERT INTO passengers (booking_id, name, age, gender, address, seat_type, seat_number, seat_class) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             [
@@ -495,7 +451,7 @@ app.post("/bookings", async (req, res) => {
               passenger.address,
               seatType,
               seatNumber,
-              selectedClass, // Insert the selected class as seat_class
+              selectedClass,
             ],
             (err, result) => {
               if (err) {
@@ -511,16 +467,20 @@ app.post("/bookings", async (req, res) => {
               }
             }
           );
-        }
+        
 
+
+        
         db.commit((commitErr) => {
           if (commitErr) {
             console.error("Transaction commit error:", commitErr);
             res.status(500).send("Error committing transaction");
           } else {
-            res.status(200).json({ pnrNumber });
+            res.status(200).json({ pnrNumber, bookedSeats});
+            
           }
         });
+      }
       });
     } else {
       res.status(400).send("Seats not available");
@@ -530,6 +490,7 @@ app.post("/bookings", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
 
 
 //--------------------------------------------------Pnr number--------------------------------------
@@ -586,6 +547,72 @@ app.get('/trains/:train_id', (req, res) => {
     res.json(trainResults[0]);
   });
 });
+
+//----------------------------------------------------------------------------------------------------
+
+
+
+
+// Define an endpoint to handle the DELETE request for deleting a booking
+app.delete('/bookings/:bookingId', (req, res) => {
+  const bookingId = req.params.bookingId;
+
+  // Check if the booking with the provided bookingId exists
+  const checkBookingQuery = 'SELECT * FROM bookings WHERE booking_id = ?';
+  db.query(checkBookingQuery, [bookingId], (err, results) => {
+    if (err) {
+      console.error('Error checking booking:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
+    if (results.length === 0) {
+      // Booking does not exist
+      res.status(404).json({ error: 'Booking not found' });
+      return;
+    }
+
+    // If the booking exists, delete the booking and associated passengers
+    const deleteBookingQuery = 'DELETE FROM bookings WHERE booking_id = ?';
+    db.query(deleteBookingQuery, [bookingId], (err, deleteResult) => {
+      if (err) {
+        console.error('Error deleting booking:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+
+      // Now, delete associated passengers
+      const deletePassengersQuery = 'DELETE FROM passengers WHERE booking_id = ?';
+      db.query(deletePassengersQuery, [bookingId], (err, deletePassengersResult) => {
+        if (err) {
+          console.error('Error deleting passengers:', err);
+          res.status(500).json({ error: 'Internal Server Error' });
+          return;
+        }
+
+        res.status(200).json({ message: 'Booking and passengers deleted successfully' });
+      });
+    });
+  });
+});
+//-----------------------------------------------------------------------------------------------
+app.use(express.json()); // Body parsing middleware
+
+app.post('/booking_status', (req, res) => {
+  const { booking_id, status } = req.body; // Assuming you're sending this data in the request body.
+
+  const query = 'INSERT INTO booking_status (booking_id, status) VALUES (?, ?)';
+  db.query(query, [booking_id, status], (err, result) => {
+    if (err) {
+      console.error('Error inserting data into booking_status: ' + err);
+      res.status(500).send('Error inserting data');
+    } else {
+      console.log('Inserted data into booking_status');
+      res.status(200).send('Data inserted successfully');
+    }
+  });
+});
+
 
 
 //------------------------------------------------------------------------------------console log---

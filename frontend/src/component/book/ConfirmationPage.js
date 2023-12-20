@@ -18,13 +18,14 @@ function ConfirmationPage({ show, onClose, onProceed, onCancel, confirmationData
             <p>Arrival Time: {confirmationData.selectedTrain.arrival_time}</p>
             <p>Selected Class: {confirmationData.selectedClass}</p>
             <p>Number of Passengers: {confirmationData.numPassengers}</p>
+            <p>Total Cost: Rs.{confirmationData.totalCost}</p>
           </div>
         )}
 
         {/* Display passenger details in a table */}
         <h3 className='heading'>Passenger Details:</h3>
         {confirmationData && (
-          <table>
+          <table className='train-table'>
             <thead>
               <tr>
                 <th>Passenger</th>
@@ -49,8 +50,8 @@ function ConfirmationPage({ show, onClose, onProceed, onCancel, confirmationData
         )}
 
         <div className="confirmation-buttons">
-          <button onClick={onProceed}>Proceed to Payment</button>
-          <button onClick={onCancel}>Cancel</button>
+          <button className="btn-pri mt-2"onClick={onProceed}>Proceed to Payment</button>
+          <button className='btn-sec mt-2' onClick={onCancel}>Cancel</button>
         </div>
       </div>
     </div>

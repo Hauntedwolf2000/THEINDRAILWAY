@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './ScrollingTicker.css';
 import Footer from '../../cmncomp/Footer';
 import Sc from '../../cmncomp/Sc';
-import Modal from '../../cmncomp/Modal';
 
 class ScrollingTicker extends React.Component {
   constructor(props) {
@@ -47,7 +46,7 @@ class ScrollingTicker extends React.Component {
           currentIndex: (prevState.currentIndex + 1) % prevState.announcements.length,
         }));
       }
-    }, 3000); // Change the duration as needed (in milliseconds)
+    }, 1000); // Change the duration as needed (in milliseconds)
   };
 
   handleHover = () => {
@@ -159,7 +158,6 @@ class ScrollingTicker extends React.Component {
 
   </div>
 </div>
-<Modal/>
 
         
       </div>

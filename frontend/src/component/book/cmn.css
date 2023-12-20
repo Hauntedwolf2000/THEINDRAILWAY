@@ -1,83 +1,177 @@
+/* bok.css */
 
-
-.heading{
-    color: #212A3E;
-    padding: none;
-}
-
+/* Main container */
 .main_container {
-    padding-left: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Fix the typo here */
-    padding: 5px;
-    background-color: #212A3E;
-    position: relative;
-    height: 40rem;
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #dde6ed;
 }
 
-.train_details {
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #526D82;
+/* Heading */
+.heading {
+  font-size: 24px;
+  margin: 10px 0;
 }
 
-.source_destination, .selected_train {
-    background-color: #27374D;
-    padding: 5px 10px;
-    margin: 10px;
-    border-radius: 5px;
+/* Source and Destination inputs */
+.source_destination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
-input, select {
-    padding: 10px;
-    margin: 4px;
+/* Input fields */
+.input-field {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-table{
-    margin: 0px 0px 10px 0px;
+/* Search button */
+.search-button {
+  background-color: #27374d;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-th,td{
-    border: 3px #DDE6ED dashed;
-    padding: 8px;
-}
+/* Media query for responsive layout */
+@media (max-width: 768px) {
+  .source_destination {
+    flex-direction: column;
+  }
 
-
-button {
-    background-color: #DDE6ED;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    color: #27374D;
-    margin: 2px 5px;
-}
-
-
-
-/* Styles for the modal overlay */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 5%;
-    left: 35%;
+  .input-field {
     width: 100%;
-    height: 100%;
-    z-index: 1000; /* Ensure the modal is on top of other content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: #27374d;
+  }
+}
+/* Selected Train Details */
+.selected_train {
+  margin-top: 20px;
+}
+
+/* Passenger form */
+.passenger-form {
+  margin: 20px 0;
+}
+
+.passenger-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Select styles */
+.passenger-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Style individual options in the select */
+.passenger-select option {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Passenger info */
+.passenger-info {
+  margin-bottom: 20px;
+}
+
+/* Form input fields */
+.form-input {
+  margin: 5px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Form select fields */
+.form-select {
+  margin: 5px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Primary button */
+.btn-pri {
+  background-color: #27374d;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+/* Secondary button */
+.btn-sec {
+  background-color: #9db2bf;
+  color: #27374d;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+/* Train table */
+.train-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Train table header */
+.train-table th {
+  background-color: #27374d;
+  color: #fff;
+  padding: 10px;
+}
+
+/* Train table row */
+.train-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Footer text */
+.text1 {
+  text-align: center;
+  margin-top: 20px;
 }
 
 /* Styles for the modal itself */
 .modal {
-    background-color: #526D82;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    max-width: 90%;
-    width: 400px; /* Adjust the width as needed */
-    padding: 20px;
+  max-height: 80%; /* Set a maximum height for the modal content */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds the modal */
+  background-color: #526d82;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  max-width: 90%;
+  width: 400px; /* Adjust the width as needed */
+  padding: 20px;
+  margin-inline: auto;
 }
-.text1{
-    background-color: blue;
+
+.pay_container {
+  margin: 80px;
+  padding: 50px;
+  background-color: #526d82;
+}
+.text1 {
+  
+  width: 100%;
+  background-color: #27374d;
 }

@@ -85,7 +85,7 @@ const Home = () => {
     </div>
 				  <Nav onClick={toggleNavbar}>
 					  <Link to="/" className='m-3 navbar-brand mb-0 h1 pb-4'>Home</Link>
-					  <Nav.Link href="#about" className='m-3 navbar-brand mb-0 h1 pb-4'>About</Nav.Link>
+					  <Nav.Link href="/abt" className='m-3 navbar-brand mb-0 h1 pb-4'>About</Nav.Link>
 				  </Nav>
 
 				  <Dropdown>
@@ -95,9 +95,10 @@ const Home = () => {
       <Dropdown.Menu>
         <Dropdown.Item href="Fnt">Search My Train</Dropdown.Item>
         <Dropdown.Item href="Snt">Find My Train</Dropdown.Item>
-        {auth &&<Dropdown.Item href="#action-3">Book My train</Dropdown.Item>}
+        {auth &&<Dropdown.Item href="/bok">Book My train</Dropdown.Item>}
         <Dropdown.Item href="ScrollingTicker">ALERT</Dropdown.Item>
-        <Dropdown.Item href="#action-3">CONTACT</Dropdown.Item>
+        <Dropdown.Item href="contact">CONTACT</Dropdown.Item>
+        {auth &&<Dropdown.Item href="/cancel">Cancel my tkt</Dropdown.Item>}
         <Dropdown.Item href="/pnr">PNR</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import validation from './Signupvalidation';
+import './Signup.css';
 
 const Register = () => {
     const [values,setValues]=useState({
@@ -30,6 +31,7 @@ const handleSubmit = (event) => {
     axios.post('http://localhost:8081/register', values)
       .then(res => {
         if (res.data.Status === 'Sucess') {
+          alert("registration successfull");
           Navigate('/login'); // Navigate to login only on successful registration
         } else {
           // Handle the case when registration isn't successful
@@ -46,7 +48,7 @@ const handleSubmit = (event) => {
 
 
   return (
-    <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
+    <div className='d-flex justify-content-center align-items-center bg-primary back vh-100'>
       <div className='bg-white p-3 rounded-3 w-25'>
         <h2>Sign-Up</h2>
         <form onSubmit={handleSubmit}>
